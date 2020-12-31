@@ -1,2 +1,4 @@
 image/
 cv2/
+*.prototxt.txt
+*.caffemodel
