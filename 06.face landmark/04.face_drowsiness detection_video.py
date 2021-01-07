@@ -10,18 +10,23 @@ pygame.mixer.music.load('../cv2/audio/fire-truck.wav')
 RIGHT_EYE = list(range(36, 42))
 LEFT_EYE = list(range(42, 48))
 EYES = list(range(36, 48))
+
+# video frame
 frame_width = 640
 frame_height = 480
 
+# title
 title_name = 'Face Drowsiness Detection'
 elapsed_time = 0
 
+# face recognition - hearcascading
 face_cascade_name = '../cv2/haarcascades/haarcascade_frontalface_alt.xml'
 face_cascade = cv2.CascadeClassifier()
 if not face_cascade.load(cv2.samples.findFile(face_cascade_name)):
     print('--(!)Error loading face cascade')
     exit(0)
 
+# land mark
 predictor_file = '../cv2/model/shape_predictor_68_face_landmarks.dat'
 predictor = dlib.shape_predictor(predictor_file)
 
@@ -48,17 +53,22 @@ def detectAndDisplay(image):
     start_time = time.time()
     #height,width = image.shape[:2]
     image = cv2.resize(image, (frame_width, frame_height))
+    # sleep color gray 
     show_frame = image
+
+    # color noisy 
     frame_gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     frame_gray = cv2.equalizeHist(frame_gray)
     faces = face_cascade.detectMultiScale(frame_gray)
-    
+
+    # eye detect and show image
     for (x,y,w,h) in faces:
         cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
         
         rect = dlib.rectangle(int(x), int(y), int(x + w),
 			int(y + h))
         points = np.matrix([[p.x, p.y] for p in predictor(frame_gray, rect).parts()])
+        
         show_parts = points[EYES]
         right_eye_EAR = getEAR(points[RIGHT_EYE])
         left_eye_EAR = getEAR(points[LEFT_EYE])
@@ -92,8 +102,8 @@ def detectAndDisplay(image):
         if( number_closed > closed_limit ):
             show_frame = frame_gray
             # play SOUND
-            if(pygame.mixer.music.get_busy()==False):
-                pygame.mixer.music.play()
+            #if(pygame.mixer.music.get_busy()==False):
+                #pygame.mixer.music.play()
 
     cv2.putText(show_frame, sign , (10,frame_height-20), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
     cv2.imshow(title_name, show_frame)
@@ -104,6 +114,8 @@ def detectAndDisplay(image):
 
 vs = cv2.VideoCapture(0)
 time.sleep(2.0)
+
+# video
 if not vs.isOpened:
     print('### Error opening video ###')
     exit(0)
@@ -113,6 +125,8 @@ while True:
         print('### No more frame ###')
         vs.release()
         break
+    
+    # detect
     detectAndDisplay(frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
