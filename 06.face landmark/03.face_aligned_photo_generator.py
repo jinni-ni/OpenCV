@@ -11,7 +11,7 @@ output_paths = ['./image/tedy-align/', './image/son-align/', './image/unknown-al
 number_images = 20
 image_type = '.jpg'
 
-predictor_file = './model/shape_predictor_68_face_landmarks.dat'
+predictor_file = '../cv2/model/shape_predictor_68_face_landmarks.dat'
 MARGIN_RATIO = 1.5
 OUTPUT_SIZE = (300, 300)
 
