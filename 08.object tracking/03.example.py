@@ -21,7 +21,7 @@ if not cap.isOpened():
 # Discriminative Correlation Filter with Channel and Spatial Reliability
 # 앞의 두 가지 방법보다 강인하게 추적을 함. 그대신 느림
 tracker = cv2.TrackerCSRT_create()
-
+M
 # GOTURN은 딥러닝 기반. 실행하려면 딥러닝 관련 파일을 다운받아서 가중치 파일을 저장해야지 동작 가능
 
 # 첫 번째 프레임에서 추적 ROI 설정

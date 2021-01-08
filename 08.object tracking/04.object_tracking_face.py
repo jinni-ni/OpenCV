@@ -7,7 +7,7 @@ frame_count = 0
 # csrt
 # tracker = cv2.TrackerCSRT_create()
 # kcf
-tracker = cv2.TrackerKCF_create()
+tracker = cv2.legacy.TrackerKCF_create()
 # boosting
 # tracker = cv2.TrackerBoosting_create()
 # mil
@@ -29,7 +29,7 @@ if not face_cascade.load(cv2.samples.findFile(face_cascade_name)):
 detected = False
 frame_mode = 'Tracking'
 elapsed_time = 0
-trackers = cv2.MultiTracker_create()
+trackers = cv2.legacy.MultiTracker_create()
 
 vs = cv2.VideoCapture(file_name)
 
@@ -59,7 +59,7 @@ while True:
         detected = True
 
     cv2.imshow("Frame", frame)
-    frame_time = tiem.time() - start_time
+    frame_time = time.time() - start_time
     elapsed_time += frame_time
     print("[{}] Frame {} time {}".format(frame_mode, frame_count, frame_time))
     key = cv2.waitKey(1) & 0xFF
